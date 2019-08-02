@@ -14,3 +14,4 @@ class Book(models.Model):
         self.pdf.delete()
         self.cover.delete()
         super().delete(*args, **kwargs)
+

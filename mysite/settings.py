@@ -37,10 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     'crispy_forms',
-
     'mysite.core',
+    'accounts.apps.AccountsConfig',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -137,5 +136,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MEDIA_URL = '/media/'
 
-LOGIN_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = 'book_list'
 LOGOUT_REDIRECT_URL = 'home'
