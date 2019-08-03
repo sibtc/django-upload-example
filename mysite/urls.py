@@ -19,10 +19,13 @@ urlpatterns = [
 
     path('admin/', admin.site.urls),
 
-    #Authentication urls
+    # Authentication urls
     path('accounts/', include('django.contrib.auth.urls')),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     path('accounts/', include('accounts.urls')),
+
+    # Search url
+    path('search/', views.SearchResultsView.as_view(), name='search_results'),
 ]
 
 if settings.DEBUG:

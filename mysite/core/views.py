@@ -4,6 +4,7 @@ from django.core.files.storage import FileSystemStorage
 from django.urls import reverse_lazy
 import os
 from django.conf import settings
+from django.db.models import Q 
 
 from .forms import BookForm
 from .models import Book
@@ -89,3 +90,16 @@ class UploadBookView(CreateView):
 def GetUserName(request):
     current_user = request.user
     return current_user.id
+
+class SearchResultsView(ListView):
+    model = Book
+    form_class = BookForm
+    template_name = 'search_results.html'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        object_list = Book.objects.filter(
+           Q(pdf__icontains=query)
+        )
+        print(object_list)
+        return object_list
