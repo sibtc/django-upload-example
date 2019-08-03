@@ -30,7 +30,11 @@ def upload(request):
 
 
 def book_list(request):
-    books = Book.objects.all()
+    username = request.user.username
+    if username == "admin":
+       books = Book.objects.all()
+    else:
+      books = Book.objects.filter(author__icontains=request.user.username)
     return render(request, 'book_list.html', {
         'books': books
     })
