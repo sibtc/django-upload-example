@@ -3,17 +3,17 @@
 {% block content %}
 
   {% block content_header %}
-    <h2>Books</h2>
+    <h2>Reports</h2>
     <p>
-      <a href="{% url 'upload_book' %}" class="btn btn-primary">Upload book</a>
+      <a href="{% url 'upload_book' %}" class="btn btn-primary">Upload Report</a>
     </p>
   {% endblock %}
 
   <table class="table mb-0">
     <thead>
       <tr>
-        <th>Cover</th>
-        <th>Title</th>
+        <th>No</th>
+        <th>Report Name</th>
         <th>Author</th>
         <th>Download</th>
         <th>Delete</th>
@@ -26,7 +26,7 @@
             {% if book.cover %}
               <img src="{{ book.cover.url }}" alt="{{ book.title }}" style="width:100px;">
             {% else %}
-              <span class="text-muted">No cover</span>
+              <span class="text-muted">No Id</span>
             {% endif %}
           </td>
           <td>{{ book.title }}</td>

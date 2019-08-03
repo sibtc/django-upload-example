@@ -43,6 +43,11 @@ def upload_book(request):
             temp_fname = form.cleaned_data['pdf']
             uname = request.user.username
             fname = uname + "_" + str(week_num) + "_" + str(year) + ".pdf"
+ 
+            # Delete entry if it already exists
+            bookobj = Book.objects.filter(pdf__icontains=fname)
+            bookobj.delete()
+
             report = Book(title=fname, author=uname, pdf=fname, cover="")
             handle_uploaded_file(temp_fname, fname)
             report.save()
