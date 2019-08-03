@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, ListView, CreateView
 from django.core.files.storage import FileSystemStorage
 from django.urls import reverse_lazy
+import os
+from django.conf import settings
 
 from .forms import BookForm
 from .models import Book
@@ -20,8 +22,9 @@ def upload(request):
     context = {}
     if request.method == 'POST':
         uploaded_file = request.FILES['document']
+        fname = uname + "_" + str(week_num) + "_" + str(year) + ".pdf"
         fs = FileSystemStorage()
-        name = fs.save(upload_file_name, uploaded_file)
+        name = fs.save(fname, uploaded_file)
         context['url'] = fs.url(name)
     return render(request, 'upload.html', context)
 
@@ -37,11 +40,12 @@ def upload_book(request):
     if request.method == 'POST':
         form = BookForm(request.POST, request.FILES)
         if form.is_valid():
-            current_filename = request.FILES['pdf']
-            #form.save()
-            uploaded_filename = request.user.username + "_" + str(week_num) + "_" + str(year) + ".pdf"
-            fs = FileSystemStorage()
-            name = fs.save(uploaded_filename, current_filename)
+            temp_fname = form.cleaned_data['pdf']
+            uname = request.user.username
+            fname = uname + "_" + str(week_num) + "_" + str(year) + ".pdf"
+            report = Book(title=fname, author=uname, pdf=fname, cover="")
+            handle_uploaded_file(temp_fname, fname)
+            report.save()
             return redirect('book_list')
     else:
         form = BookForm()
@@ -49,6 +53,10 @@ def upload_book(request):
         'form': form
     })
 
+def handle_uploaded_file(sf, df):
+    with open('media/books/pdfs/'+df, 'wb+') as destination:
+         for chunk in sf.chunks():
+             destination.write(chunk)
 
 def delete_book(request, pk):
     if request.method == 'POST':

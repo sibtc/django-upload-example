@@ -1,7 +1,9 @@
+import os
+from uuid import uuid4
 from django.db import models
 
-
 class Book(models.Model):
+    id = models.IntegerField(default=1,null=False,primary_key=True)
     title = models.CharField(max_length=100)
     author = models.CharField(max_length=100)
     pdf = models.FileField(upload_to='books/pdfs/')
