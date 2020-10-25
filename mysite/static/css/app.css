@@ -1,3 +1,8 @@
 body {
   background-color: #5c848e;
 }
+img{
+	width:300px;
+	height: 300px;
+	object-fit: contain;
+}
